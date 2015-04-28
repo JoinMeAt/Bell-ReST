@@ -1,14 +1,9 @@
 package com.bell.service;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -16,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.joda.time.DateTime;
 
+import com.amazonaws.services.directconnect.model.Connection;
 import com.bell.ServiceRequest;
 import com.bell.notification.Notification;
 import com.bell.notification.NotificationBroadcaster;
@@ -24,11 +20,11 @@ import com.bell.util.DBConnection;
 import com.bell.util.JsonTransformer;
 import com.bell.util.WebServiceCallLogger;
 
-@Path("request")
+@Path("requests")
 public class RequestService {
 
 	@POST
-	@Path("/create")
+	@Path("/")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createRequest(
 			@FormParam("deviceUUID") String deviceUUID,
@@ -105,11 +101,11 @@ public class RequestService {
 		return response;
 	}
 	
-	@POST
-	@Path("/complete")
+	@PUT
+	@Path("/{requestID}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String completeRequest(
-			@FormParam("serverID") String serverID,
+			@PathParam("serverID") String serverID,
 			@FormParam("requestID") String requestID
 			) {
 		String response = null;
@@ -168,10 +164,10 @@ public class RequestService {
 	}
 	
 	@GET
-	@Path("/all")
+	@Path("/server/{serverID}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getServiceRequestsForServer(
-			@QueryParam("serverID") String serverID
+			@PathParam("serverID") String serverID
 			) {
 		String response = null;
 		Connection con = null;

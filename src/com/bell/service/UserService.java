@@ -1,19 +1,16 @@
 package com.bell.service;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
 
 import org.joda.time.DateTimeZone;
 
+import com.amazonaws.services.directconnect.model.Connection;
 import com.bell.Manager;
 import com.bell.Server;
 import com.bell.User;
@@ -31,10 +28,10 @@ public class UserService {
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/login")
+	@Path("/")
 	public String login(
-			@QueryParam("email") String email,
-			@QueryParam("password") String password ) {
+			@FormParam("email") String email,
+			@FormParam("password") String password ) {
 		String response = null;
 		Connection con = null;
 		CallableStatement cs = null;
@@ -98,11 +95,11 @@ public class UserService {
 	}
 	
 
-	@POST
+	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/login/guest")
+	@Path("/guest/{deviceUUID}")
 	public String login(
-			@QueryParam("deviceUUID") String deviceUUID
+			@PathParam("deviceUUID") String deviceUUID
 			) {
 		String response = null;
 		Connection con = null;

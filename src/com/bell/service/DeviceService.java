@@ -1,25 +1,22 @@
 package com.bell.service;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.joda.time.DateTimeZone;
 
+import com.amazonaws.services.directconnect.model.Connection;
 import com.bell.User;
 import com.bell.util.BellException;
 import com.bell.util.DBConnection;
 import com.bell.util.JsonTransformer;
 import com.bell.util.WebServiceCallLogger;
 
-@Path("device")
+@Path("devices")
 public class DeviceService {
 
 	static {
@@ -28,7 +25,7 @@ public class DeviceService {
 	
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/register")
+	@Path("/")
 	public String registerGCM(
 			@FormParam("deviceUUID") String deviceUUID,
 			@FormParam("messagerID") String messagerID,
