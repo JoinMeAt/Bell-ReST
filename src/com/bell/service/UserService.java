@@ -8,9 +8,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.joda.time.DateTimeZone;
 
-import com.amazonaws.services.directconnect.model.Connection;
 import com.bell.Manager;
 import com.bell.Server;
 import com.bell.User;

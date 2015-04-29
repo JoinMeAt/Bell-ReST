@@ -9,9 +9,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.joda.time.DateTime;
 
-import com.amazonaws.services.directconnect.model.Connection;
 import com.bell.ServiceRequest;
 import com.bell.notification.Notification;
 import com.bell.notification.NotificationBroadcaster;

@@ -2,14 +2,17 @@ package com.bell.service;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.joda.time.DateTimeZone;
 
-import com.amazonaws.services.directconnect.model.Connection;
 import com.bell.User;
 import com.bell.util.BellException;
 import com.bell.util.DBConnection;
