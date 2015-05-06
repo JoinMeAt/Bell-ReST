@@ -50,25 +50,14 @@ public class DeviceService {
 			cs.setString("DeviceType", deviceType);
 			cs.registerOutParameter("Success", java.sql.Types.BIT);
 			cs.registerOutParameter("ErrorID", java.sql.Types.SMALLINT);
+			cs.executeUpdate();
 			
-			if( cs.execute() ) {
-				ResultSet rs = cs.getResultSet();
-				rs.next();
-
-				User u = new User();				
-				u.setUserID(rs.getLong("PK_UserID"));
-				u.setFirstName(rs.getString("FirstName"));
-				u.setLastName(rs.getString("LastName"));
-				u.setEmail(rs.getString("Email"));
-				
+			if( cs.getBoolean("Success") ) {
 				con.commit();
-				response = JsonTransformer.toJson(u);				
-			} else {			
-				if( cs.getBoolean("Success") ) {
-					response = null;
-				} else {
-					throw new BellException(cs.getInt("ErrorID"));
-				}
+				response = "true";
+			} else {
+				con.rollback();
+				throw new BellException(cs.getInt("ErrorID"));
 			}
 			
 			WebServiceCallLogger.closeWebServiceCallReport(con, id);

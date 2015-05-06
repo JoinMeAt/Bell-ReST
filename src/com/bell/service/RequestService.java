@@ -34,6 +34,7 @@ public class RequestService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String createRequest(
 			@FormParam("deviceUUID") String deviceUUID,
+			@FormParam("deviceType") String deviceType,
 			@FormParam("beaconID") String beaconID
 			) {
 		String response = null;
@@ -44,11 +45,12 @@ public class RequestService {
 		try {
 			con = DBConnection.getDBConnection();
 			
-			id = WebServiceCallLogger.openWebServiceCallReport(con, "request/create", deviceUUID + "," + beaconID);
+			id = WebServiceCallLogger.openWebServiceCallReport(con, "POST request/", deviceUUID + "," + beaconID);
 			
 			long now = DateTime.now().getMillis();
-			cs = con.prepareCall("{call sp_CreateServiceRequest(?,?,?,?,?)}");
+			cs = con.prepareCall("{call sp_CreateServiceRequest(?,?,?,?,?,?)}");
 			cs.setString("DeviceUUID", deviceUUID);
+			cs.setString("DeviceType", deviceType);
 			cs.setString("BeaconID", beaconID);
 			cs.setLong("RequestTime", now);
 			cs.registerOutParameter("Success", java.sql.Types.BIT);
@@ -111,8 +113,8 @@ public class RequestService {
 	@Path("/{requestID}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String completeRequest(
-			@PathParam("serverID") String serverID,
-			@FormParam("requestID") String requestID
+			@FormParam("serverID") String serverID,
+			@PathParam("requestID") String requestID
 			) {
 		String response = null;
 		Connection con = null;
@@ -122,7 +124,7 @@ public class RequestService {
 		try {
 			con = DBConnection.getDBConnection();
 			
-			id = WebServiceCallLogger.openWebServiceCallReport(con, "request/complete", serverID + "," + requestID);
+			id = WebServiceCallLogger.openWebServiceCallReport(con, "PUT request/", serverID + "," + requestID);
 			
 			long now = DateTime.now().getMillis();
 			cs = con.prepareCall("{call sp_CompleteServiceRequest(?,?,?,?,?)}");
@@ -183,7 +185,7 @@ public class RequestService {
 		try {
 			con = DBConnection.getDBConnection();
 			
-			id = WebServiceCallLogger.openWebServiceCallReport(con, "request/get/all", serverID);
+			id = WebServiceCallLogger.openWebServiceCallReport(con, "GET request/server", serverID);
 			
 			cs = con.prepareCall("{call sp_GetServiceRequestsForServer(?,?,?)}");
 			cs.setString("ServerID", serverID);

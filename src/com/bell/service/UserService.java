@@ -3,6 +3,7 @@ package com.bell.service;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.FormParam;
@@ -34,8 +35,11 @@ public class UserService {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/")
 	public String login(
-			@FormParam("email") String email,
-			@FormParam("password") String password ) {
+			@QueryParam("email") String email,
+			@QueryParam("password") String password,
+			@QueryParam("deviceUUID") String deviceUUID,
+			@QueryParam("deviceType") String deviceType
+			) {
 		String response = null;
 		Connection con = null;
 		CallableStatement cs = null;
@@ -46,9 +50,11 @@ public class UserService {
 			
 			id = WebServiceCallLogger.openWebServiceCallReport(con, "user/login", email);
 			
-			cs = con.prepareCall("{call sp_Login(?,?,?,?)}");
+			cs = con.prepareCall("{call sp_Login(?,?,?,?,?,?)}");
 			cs.setString("Email", email);
 			cs.setString("Password", password);
+			cs.setString("DeviceUUID", deviceUUID);
+			cs.setString("DeviceType", deviceType);
 			cs.registerOutParameter("Success", java.sql.Types.BIT);
 			cs.registerOutParameter("ErrorID", java.sql.Types.SMALLINT);
 			
