@@ -2,7 +2,7 @@ package com.bell.util;
 
 public class Constants {
 	
-	public static final long VERSION = 1;
+	public static final long VERSION = 2;
 
 	// Database Connection
 	public static final String DATABASE = "jdbc:sqlserver://jma-db.c5wfusvdk0sq.us-east-1.rds.amazonaws.com:1433;database=Bell";
